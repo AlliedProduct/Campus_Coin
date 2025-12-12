@@ -129,8 +129,8 @@ describe('campuscoin-program', () => {
     const studentTokenAcc = await getAccount(provider.connection, studentAta);
     const merchantTokenAcc = await getAccount(provider.connection, merchantAta);
 
-    console.log('Student balance:', Number(studentTokenAcc.amount));
-    console.log('Merchant balance:', Number(merchantTokenAcc.amount));
+    console.log('Student balance: ', Number(studentTokenAcc.amount));
+    console.log('Merchant balance: ', Number(merchantTokenAcc.amount));
 
     if (Number(studentTokenAcc.amount) !== 10_000 - amount) {
       throw new Error('Student balance incorrect after payment');
