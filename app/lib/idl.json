@@ -1,0 +1,419 @@
+{
+  "address": "BMcUDqQmXSQMYyo67kyih8hDrNhRrT4Fb4XXYrJzYMdm",
+  "metadata": {
+    "name": "campuscoin_program",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "earn_reward",
+      "docs": [
+        "admin mints CampusCoin rewards to a students token account.",
+        "",
+        "the `admin` must be the mint authority on the CampusCoin mint."
+      ],
+      "discriminator": [
+        228,
+        10,
+        17,
+        192,
+        231,
+        216,
+        253,
+        95
+      ],
+      "accounts": [
+        {
+          "name": "user_ata",
+          "docs": [
+            "students token account to receive reward."
+          ],
+          "writable": true
+        },
+        {
+          "name": "mint",
+          "docs": [
+            "CampusCoin mint."
+          ],
+          "writable": true
+        },
+        {
+          "name": "state",
+          "docs": [
+            "global state PDA."
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  116,
+                  97,
+                  116,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "admin",
+          "docs": [
+            "Admin signer (has to be mint authortity)."
+          ],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "init_campus",
+      "docs": [
+        "oone time setup: stores the admin (college) and the CampusCoin mint"
+      ],
+      "discriminator": [
+        157,
+        20,
+        163,
+        58,
+        110,
+        252,
+        154,
+        189
+      ],
+      "accounts": [
+        {
+          "name": "state",
+          "docs": [
+            "global state PDA."
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  116,
+                  97,
+                  116,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "admin",
+          "docs": [
+            "admin (college treasury/admin) signer."
+          ],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "mint",
+          "docs": [
+            "CampusCoin mint."
+          ]
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "pay_merchant",
+      "docs": [
+        "student pays an approved merchant in CampusCoin.",
+        "`amount` is in the mint's smallest units (so 395 = 3.95 if decimals = 2)."
+      ],
+      "discriminator": [
+        37,
+        199,
+        250,
+        174,
+        75,
+        46,
+        249,
+        238
+      ],
+      "accounts": [
+        {
+          "name": "payer",
+          "docs": [
+            "student paying."
+          ],
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "payer_ata",
+          "docs": [
+            "students token account holding CampusCoin."
+          ],
+          "writable": true
+        },
+        {
+          "name": "merchant_ata",
+          "docs": [
+            "merchants token account receiving CampusCoin."
+          ],
+          "writable": true
+        },
+        {
+          "name": "mint",
+          "docs": [
+            "CampusCoin mint."
+          ]
+        },
+        {
+          "name": "state",
+          "docs": [
+            "global state PDA."
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  116,
+                  97,
+                  116,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "merchant",
+          "docs": [
+            "merchant PDA (derived from merchant owner pubkey)."
+          ],
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  101,
+                  114,
+                  99,
+                  104,
+                  97,
+                  110,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "merchant_ata.owner",
+                "account": "TokenAccount"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "register_merchant",
+      "docs": [
+        "admin registers a merchant (cafeteria) so students can pay them"
+      ],
+      "discriminator": [
+        238,
+        245,
+        77,
+        132,
+        161,
+        88,
+        216,
+        248
+      ],
+      "accounts": [
+        {
+          "name": "state",
+          "docs": [
+            "global state PDA."
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  116,
+                  97,
+                  116,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "merchant",
+          "docs": [
+            "new merchant PDA."
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  109,
+                  101,
+                  114,
+                  99,
+                  104,
+                  97,
+                  110,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "merchant_key"
+              }
+            ]
+          }
+        },
+        {
+          "name": "merchant_key"
+        },
+        {
+          "name": "admin",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Merchant",
+      "discriminator": [
+        71,
+        235,
+        30,
+        40,
+        231,
+        21,
+        32,
+        64
+      ]
+    },
+    {
+      "name": "State",
+      "discriminator": [
+        216,
+        146,
+        107,
+        94,
+        104,
+        75,
+        182,
+        177
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "Unauthorized",
+      "msg": "Unauthorized"
+    },
+    {
+      "code": 6001,
+      "name": "MerchantNotAllowed",
+      "msg": "Merchant not allowed"
+    }
+  ],
+  "types": [
+    {
+      "name": "Merchant",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "merchant",
+            "type": "pubkey"
+          },
+          {
+            "name": "allowed",
+            "type": "bool"
+          }
+        ]
+      }
+    },
+    {
+      "name": "State",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "admin",
+            "type": "pubkey"
+          },
+          {
+            "name": "mint",
+            "type": "pubkey"
+          }
+        ]
+      }
+    }
+  ]
+}

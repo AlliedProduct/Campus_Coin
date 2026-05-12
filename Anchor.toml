@@ -6,7 +6,7 @@ resolution = true
 skip-lint = false
 
 [programs.localnet]
-campuscoin_program = "9VBP44gJxUmhVT9nj1CKYmAZZTR3cErJoHtosk8ooPGQ"
+campuscoin_program = "BMcUDqQmXSQMYyo67kyih8hDrNhRrT4Fb4XXYrJzYMdm"
 
 [registry]
 url = "https://api.apr.dev"

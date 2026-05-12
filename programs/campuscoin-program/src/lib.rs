@@ -1,7 +1,7 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token::{self, Mint, MintTo, Token, TokenAccount, Transfer};
 
-declare_id!("9VBP44gJxUmhVT9nj1CKYmAZZTR3cErJoHtosk8ooPGQ");
+declare_id!("BMcUDqQmXSQMYyo67kyih8hDrNhRrT4Fb4XXYrJzYMdm");
 
 #[program]
 pub mod campuscoin_program {
@@ -30,9 +30,9 @@ pub mod campuscoin_program {
     }
 
     /// student pays an approved merchant in CampusCoin.
-    /// `amount` is in the mint's smallest units (so 395 = 3.95 if decimals = 2).
+    /// amount is in the mints smallest units (so 395 = 3.95 if decimals = 2).
     pub fn pay_merchant(ctx: Context<P2MPay>, amount: u64) -> Result<()> {
-        // Ensure merchant is registered and allowed.
+        // ensure merchant is registered and allowed.
         require!(
             ctx.accounts.merchant.allowed,
             CampusError::MerchantNotAllowed
@@ -52,7 +52,7 @@ pub mod campuscoin_program {
 
     /// admin mints CampusCoin rewards to a students token account.
     ///
-    /// the `admin` must be the mint authority on the CampusCoin mint.
+    /// the admin must be the mint authority on the CampusCoin mint.
     pub fn earn_reward(ctx: Context<EarnReward>, amount: u64) -> Result<()> {
         require_keys_eq!(
             ctx.accounts.state.admin,
@@ -73,7 +73,7 @@ pub mod campuscoin_program {
     }
 }
 
-// Accounts / PDAs
+// accounts / PDAs
 
 #[account]
 pub struct State {
@@ -129,7 +129,7 @@ pub struct RegisterMerchant<'info> {
     )]
     pub merchant: Account<'info, Merchant>,
 
-    /// CHECK: Pubkey of the merchant (e.g. POS wallet).
+    /// CHECK: Pubkey of the merchant.
     pub merchant_key: UncheckedAccount<'info>,
 
     #[account(mut)]
@@ -191,7 +191,7 @@ pub struct EarnReward<'info> {
     )]
     pub state: Account<'info, State>,
 
-    /// Admin signer (has to be mint authortity).
+    /// admin signer (has to be mint authortity).
     #[account(mut)]
     pub admin: Signer<'info>,
 
